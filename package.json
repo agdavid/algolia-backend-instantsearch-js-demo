@@ -1,0 +1,19 @@
+{
+  "name": "algolia-backend-instantsearch-js-demo",
+  "version": "1.0.0",
+  "description": "Node.js and Express demo for backend InstantSearch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agdavid/algolia-backend-instantsearch-js-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agdavid/algolia-backend-instantsearch-js-demo/issues"
+  },
+  "homepage": "https://github.com/agdavid/algolia-backend-instantsearch-js-demo#readme"
+}
