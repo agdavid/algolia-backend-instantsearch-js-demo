@@ -2,35 +2,19 @@ console.log("Client side JS file loaded");
 
 // Create custom client
 const searchClient = {
-    // Status: Not working, response has issues
     search(requests) {
-        console.log("In custom search client");
-        return fetch(`/customsearch`, {
+        return fetch(`/search`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ requests }),
         }).then(res => {
-            console.log("In custom search response"); 
-            res.json();
+            return res.json();
         }).catch( err => {
             console.log(err);
         });
     },
-
-    // async search(requests) {
-    //     console.log("In custom search client");
-    //     const res = await fetch(`/customsearch`, {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify({ requests }),
-    //     });
-    //     const body = await res.json();
-    //     return body;
-    // },
 };
 
 const search = instantsearch({
@@ -42,6 +26,17 @@ search.addWidgets([
     instantsearch.widgets.searchBox({
         container: '#searchbox',
     }),
+    instantsearch.widgets.hits({
+        container: '#hits',
+        templates: {
+          item: `
+    <article>
+      <h1>{{#helpers.highlight}}{ "attribute": "name" }{{/helpers.highlight}}</h1>
+      <p>{{#helpers.highlight}}{ "attribute": "description" }{{/helpers.highlight}}</p>
+    </article>
+    `,
+        },
+      }),
 ]);
 
 search.start();
