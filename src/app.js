@@ -1,8 +1,12 @@
 const path = require('path');
 const express = require('express');
-const bodyParser = require('body-parser');
 const dotenvExtended = require('dotenv-extended');
 const dotenvParseVariables = require('dotenv-parse-variables');
+
+// Instantiate an Algolia client
+const algoliasearch = require('algoliasearch');
+const algoliaClient = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_SEARCH_API_KEY);
+
 
 // load .env variables
 dotenvParseVariables(
@@ -32,18 +36,24 @@ app.set('views', viewsPath); // point to custom views directory instead of /view
 app.use(express.static(publicDirectoryPath));
 
 // setup body parsing
-app.use(bodyParser.json());
+app.use(express.json());
 
 // initial view
 app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.post('/search', (req, res) => {
-    console.log(req.body);
-    res.status(200).send({
-        message: `Received query: ${req.body.query}`,
-    });
+app.post('/search', async (req, res, next) => {
+    try {
+        console.log("In post search");
+        const { requests } = req.body;
+        console.log(requests);
+        // TypeError [ERR_HTTP_INVALID_HEADER_VALUE]: Invalid value "undefined" for header "x-algolia-api-key" 
+        const results = await algoliaClient.search(requests);
+        res.status(200).send(results);
+    } catch (error) {
+        return next(error);
+    }
 });
 
 app.listen(port, ()=> {
