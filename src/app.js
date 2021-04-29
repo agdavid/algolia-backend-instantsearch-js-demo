@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
 const dotenvExtended = require('dotenv-extended');
 const dotenvParseVariables = require('dotenv-parse-variables');
 
@@ -30,9 +31,19 @@ app.set('views', viewsPath); // point to custom views directory instead of /view
 // setup static directory to serve
 app.use(express.static(publicDirectoryPath));
 
+// setup body parsing
+app.use(bodyParser.json());
+
 // initial view
 app.get('/', (req, res) => {
     res.render('index');
+});
+
+app.post('/search', (req, res) => {
+    console.log(req.body);
+    res.status(200).send({
+        message: `Received query: ${req.body.query}`,
+    });
 });
 
 app.listen(port, ()=> {

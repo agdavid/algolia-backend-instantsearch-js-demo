@@ -10,5 +10,21 @@ searchForm.addEventListener('submit', e => {
 });
 
 const fetchResults = query => {
-    console.log(`The query is: ${query}`);
-}
+    const opts = {
+        query
+    };
+    console.log(opts);
+
+    fetch(`/search`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(opts)
+    }).then(res => {
+        return res.json();
+    }).then(data => {
+        console.log(data);
+    });
+};
