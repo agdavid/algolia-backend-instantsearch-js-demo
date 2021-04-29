@@ -21,13 +21,18 @@ const port = process.env.PORT;
 
 // define paths for express config
 const publicDirectoryPath = path.join(__dirname, '../public');
+const viewsPath = path.join(__dirname, '../templates/views');
+
+// setup handlebars
+app.set('view engine', 'hbs'); // set templating engine
+app.set('views', viewsPath); // point to custom views directory
 
 // setup static directory to serve
 app.use(express.static(publicDirectoryPath));
 
 // initial view
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.render('index');
 });
 
 app.listen(port, ()=> {
