@@ -5,7 +5,9 @@ const dotenvParseVariables = require('dotenv-parse-variables');
 
 // Instantiate an Algolia client
 const algoliasearch = require('algoliasearch');
-const algoliaClient = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_SEARCH_API_KEY);
+const { nextTick } = require('process');
+// const algoliaClient = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_SEARCH_API_KEY);
+const algoliaClient = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
 
 
 // load .env variables
@@ -43,13 +45,25 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.post('/search', async (req, res, next) => {
+// app.post('/search', async (req, res, next) => {
+//     try {
+//         console.log("In post search");
+//         const { requests } = req.body;
+//         console.log(requests);
+//         // TypeError [ERR_HTTP_INVALID_HEADER_VALUE]: Invalid value "undefined" for header "x-algolia-api-key" 
+//         const results = await algoliaClient.search(requests);
+//         res.status(200).send(results);
+//     } catch (error) {
+//         return next(error);
+//     }
+// });
+
+app.post('/customsearch', async({ body }, res) => {
     try {
-        console.log("In post search");
-        const { requests } = req.body;
-        console.log(requests);
-        // TypeError [ERR_HTTP_INVALID_HEADER_VALUE]: Invalid value "undefined" for header "x-algolia-api-key" 
+        console.log("In post custom search");
+        const { requests } = body;
         const results = await algoliaClient.search(requests);
+        console.log(results);
         res.status(200).send(results);
     } catch (error) {
         return next(error);

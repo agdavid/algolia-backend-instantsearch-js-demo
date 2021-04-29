@@ -1,12 +1,36 @@
 console.log("Client side JS file loaded");
 
-const algoliaClient = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
-// create custom client
+// Create custom client
 const searchClient = {
-    ...algoliaClient,
+    // Status: Not working, response has issues
     search(requests) {
-        return algoliaClient.search(requests);
+        console.log("In custom search client");
+        return fetch(`/customsearch`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ requests }),
+        }).then(res => {
+            console.log("In custom search response"); 
+            res.json();
+        }).catch( err => {
+            console.log(err);
+        });
     },
+
+    // async search(requests) {
+    //     console.log("In custom search client");
+    //     const res = await fetch(`/customsearch`, {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify({ requests }),
+    //     });
+    //     const body = await res.json();
+    //     return body;
+    // },
 };
 
 const search = instantsearch({
@@ -21,35 +45,3 @@ search.addWidgets([
 ]);
 
 search.start();
-
-const searchForm = document.querySelector('form');
-const searchBar = document.querySelector('input');
-
-searchForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const query = searchBar.value;
-    const requests = [
-        {
-            "indexName": "instant_search",
-            "params": {
-                query
-            }
-        }
-    ]
-    fetchResults(requests);
-});
-
-const fetchResults = requests => {
-    console.log("In search");
-    return fetch(`/search`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ requests }),
-    }).then(res => { 
-        res.json();
-    }).then( data => {
-        console.log(data);
-    });
-  };
