@@ -1,9 +1,9 @@
 module.exports = {
-    getCustomDataBackend,
+  getCustomDataBackend,
 };
 
 function getCustomDataBackend() {
-    // Retrieve data from your own database
-    const customData = "hydratedInBackend";
-    return customData
+  // retrieve data from your own database
+  const customData = "hydratedInBackend";
+  return customData;
 }

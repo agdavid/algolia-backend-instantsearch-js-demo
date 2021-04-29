@@ -1,6 +1,6 @@
 console.log("Client side JS file loaded");
 
-// Create custom client
+// create custom client
 const searchClient = {
   search(requests) {
     return fetch(`/search`, {
@@ -13,6 +13,19 @@ const searchClient = {
       .then((res) => {
         return res.json();
       })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+  searchForFacetValues(requests) {
+    return fetch("/sffv", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ requests }),
+    })
+      .then((res) => res.json())
       .catch((err) => {
         console.log(err);
       });
@@ -34,7 +47,7 @@ search.addWidgets([
       return items.map((item) => {
         return {
           ...item,
-          // Hydrate with data here
+          // hydrate with data here
           frontendCustomData: "hydratedInFrontend",
         };
       });
@@ -52,6 +65,8 @@ search.addWidgets([
   instantsearch.widgets.refinementList({
     container: "#brand-list",
     attribute: "brand",
+    // enable search for facet values
+    searchable: true,
   }),
   instantsearch.widgets.pagination({
     container: "#pagination",

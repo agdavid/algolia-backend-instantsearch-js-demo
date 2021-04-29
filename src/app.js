@@ -19,7 +19,7 @@ dotenvParseVariables(
   })
 );
 
-// Instantiate an Algolia client
+// instantiate an Algolia client
 const algoliasearch = require("algoliasearch");
 const algoliaClient = algoliasearch(
   process.env.ALGOLIA_APP_ID,
@@ -61,7 +61,7 @@ app.post("/search", async ({ body }, res) => {
           hits: result.hits.map((hit) => {
             return {
               ...hit,
-              // Hydrate with data here
+              // hydrate with data here
               // `getCustomDataBackend()` is a proxy for retrieving data from your own database
               backendCustomData: getCustomDataBackend(),
             };
@@ -69,6 +69,17 @@ app.post("/search", async ({ body }, res) => {
         };
       }),
     };
+    res.status(200).send(results);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+// Search for facet values endpoint
+app.post("/sffv", async ({ body }, res) => {
+  try {
+    const { requests } = body;
+    const results = await algoliaClient.searchForFacetValues(requests);
     res.status(200).send(results);
   } catch (error) {
     return next(error);
