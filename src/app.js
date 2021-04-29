@@ -16,7 +16,7 @@ dotenvParseVariables(
     })
   );
 
-const app = express();
+  const app = express();
 const port = process.env.PORT;
 
 // define paths for express config
@@ -25,7 +25,7 @@ const viewsPath = path.join(__dirname, '../templates/views');
 
 // setup handlebars
 app.set('view engine', 'hbs'); // set templating engine
-app.set('views', viewsPath); // point to custom views directory
+app.set('views', viewsPath); // point to custom views directory instead of /views
 
 // setup static directory to serve
 app.use(express.static(publicDirectoryPath));
