@@ -10,7 +10,7 @@ Node.js and Express demo for backend InstantSearch
 $ git clone https://github.com/agdavid/algolia-backend-instantsearch-js-demo.git
 ```
 
-2. Install the node modules:
+2. Navigate into the root folder and install the node modules:
 
 ```bash
 $ npm install
@@ -22,7 +22,7 @@ $ npm install
 $ cp .env.defaults .env
 ```
 
-4. **Go to the [Algolia homepage](https://www.algolia.com/). In the top-right corner of the screen, click the "Login" button.** (If you don't already have an account, you can **create a new one for free [here](https://www.algolia.com/users/sign_up)**.)
+4. [ OPTIONAL: Default Credentials Included ] **Go to the [Algolia homepage](https://www.algolia.com/). In the top-right corner of the screen, click the "Login" button.** (If you don't already have an account, you can **create a new one for free [here](https://www.algolia.com/users/sign_up)**.)
 
 5. [ OPTIONAL: Default Credentials Included ] Once you have signed into the Algolia Dashboard, navigate to the lefthand side of the screen and Select the **API keys** Link to find the Application ID and Search API Key. Set the following values in your `.env` file:
 
